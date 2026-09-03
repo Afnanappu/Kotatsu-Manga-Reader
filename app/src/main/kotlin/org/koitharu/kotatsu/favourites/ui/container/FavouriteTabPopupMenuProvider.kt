@@ -32,6 +32,7 @@ class FavouriteTabPopupMenuProvider(
 			R.id.action_edit -> router.openFavoriteCategoryEdit(categoryId)
 			R.id.action_delete -> confirmDelete()
 			R.id.action_manage -> router.openFavoriteCategories()
+			R.id.action_export -> viewModel.exportCategory(categoryId)
 			else -> return false
 		}
 		return true

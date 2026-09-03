@@ -29,6 +29,7 @@ class FavouritesContainerViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 	val onActionDone = MutableEventFlow<ReversibleAction>()
+	val onExportReady = MutableEventFlow<String>()
 
 	private val categoriesStateFlow = favouritesRepository.observeCategoriesForLibrary()
 		.withErrorHandling()
@@ -68,6 +69,27 @@ class FavouritesContainerViewModel @Inject constructor(
 				}
 				onActionDone.call(ReversibleAction(R.string.category_hidden_done, reverse))
 			}
+		}
+	}
+
+	fun exportCategory(categoryId: Long) {
+		launchLoadingJob(Dispatchers.Default) {
+			val manga = favouritesRepository.getManga(categoryId)
+			val categoryTitle = categoriesStateFlow.value
+				?.find { it.id == categoryId }?.title
+				?: "Favourites"
+			val text = buildString {
+				appendLine("$categoryTitle (${manga.size})")
+				appendLine()
+				manga.forEachIndexed { index, m ->
+					appendLine("${index + 1}. ${m.title}")
+					// if (m.authors.isNotEmpty()) appendLine("   Author: ${m.authors.joinToString()}")
+					// if (m.state != null) appendLine("   Status: ${m.state}")
+					// if (m.publicUrl.isNotEmpty()) appendLine("   URL: ${m.publicUrl}")
+					appendLine()
+				}
+			}
+			onExportReady.call(text)
 		}
 	}
 

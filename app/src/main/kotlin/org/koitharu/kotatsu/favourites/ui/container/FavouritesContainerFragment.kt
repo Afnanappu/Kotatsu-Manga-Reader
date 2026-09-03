@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
+import androidx.core.app.ShareCompat
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
@@ -64,6 +65,13 @@ class FavouritesContainerFragment : BaseFragment<FragmentFavouritesContainerBind
 		viewModel.isEmpty.observe(viewLifecycleOwner, ::onEmptyStateChanged)
 		addMenuProvider(FavouritesContainerMenuProvider(router))
 		viewModel.onActionDone.observeEvent(viewLifecycleOwner, ReversibleActionObserver(binding.pager))
+		viewModel.onExportReady.observeEvent(viewLifecycleOwner) { text ->
+			ShareCompat.IntentBuilder(requireContext())
+				.setText(text)
+				.setType("text/plain")
+				.setChooserTitle(R.string.export_category)
+				.startChooser()
+		}
 	}
 
 	override fun onDestroyView() {

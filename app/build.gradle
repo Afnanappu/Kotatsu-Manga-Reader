@@ -21,8 +21,8 @@ android {
 		applicationId 'org.koitharu.kotatsu'
 		minSdk = 23
 		targetSdk = 36
-		versionCode = 1033
-		versionName = '9.4.1'
+		versionCode = 1034
+		versionName = '9.4.2'
 		generatedDensities = []
 		testInstrumentationRunner 'org.koitharu.kotatsu.HiltTestRunner'
 		ksp {
@@ -39,11 +39,20 @@ android {
 		}
 		resValue 'string', 'tg_backup_bot_token', localProperties.getProperty('tg_backup_bot_token', '')
 	}
+	signingConfigs {
+		release {
+			storeFile rootProject.file('release.jks')
+			storePassword 'kotatsu123'
+			keyAlias 'kotatsu'
+			keyPassword 'kotatsu123'
+		}
+	}
 	buildTypes {
 		debug {
 			applicationIdSuffix = '.debug'
 		}
 		release {
+			signingConfig signingConfigs.release
 			minifyEnabled true
 			shrinkResources true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
