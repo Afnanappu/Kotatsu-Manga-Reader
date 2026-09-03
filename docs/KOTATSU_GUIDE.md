@@ -1,4 +1,5 @@
 # Kotatsu Manga Reader — Developer Guide
+>
 > Written for Flutter developers with no prior Android/Kotlin experience.
 
 ---
@@ -24,6 +25,7 @@
 Kotatsu is a **native Android manga reader app** written in Kotlin. It was originally developed and maintained publicly on GitHub but was shut down by its owners due to legal pressure. The source code remains fully intact and functional.
 
 **What the app does:**
+
 - Reads manga from 1200+ online sources
 - Supports offline downloads (CBZ/ZIP)
 - Organizes manga into favorite categories
@@ -38,7 +40,7 @@ Kotatsu is a **native Android manga reader app** written in Kotlin. It was origi
 If you know Flutter, think of these as equivalents:
 
 | Concept | Flutter | Android (Kotatsu) |
-|---|---|---|
+| --- | --- | --- |
 | Language | Dart | Kotlin |
 | UI components | Widgets | Views / Fragments / Activities |
 | Screen navigation | Navigator / GoRouter | Fragment back stack / AppRouter |
@@ -60,7 +62,7 @@ If you know Flutter, think of these as equivalents:
 
 Everything lives in a single module (`app/`). There are no separate Flutter-style packages — all features are sub-packages of the main app.
 
-```
+```text
 app/src/main/
 ├── kotlin/org/koitharu/kotatsu/
 │   ├── core/               # Shared infrastructure (DB, network, UI base classes)
@@ -95,18 +97,19 @@ app/src/main/
 
 Kotatsu uses **MVVM + Clean Architecture** — similar to how Flutter apps use BLoC or Riverpod with repositories.
 
-```
+```text
 UI Layer  →  ViewModel  →  Repository  →  Data Source (DB / Network)
 ```
 
 **Flutter analogy:**
-```
+
+```text
 Widget  →  Provider/Riverpod notifier  →  Repository  →  API / local DB
 ```
 
 ### Data flow example (loading favorites)
 
-```
+```text
 FavouritesListFragment          (like a Flutter StatefulWidget)
     ↓ observes
 FavouritesListViewModel         (like a Riverpod AsyncNotifier)
@@ -135,10 +138,11 @@ SQLite database
 ## 5. Key packages explained
 
 ### `core/`
+
 Shared infrastructure used by every feature.
 
 | Sub-package | What it does |
-|---|---|
+| --- | --- |
 | `core/db/` | Room database definition, all DAOs, 27 migration files |
 | `core/model/` | Domain data classes (`Manga`, `FavouriteCategory`, etc.) |
 | `core/network/` | OkHttp setup, interceptors (CloudFlare bypass, rate limiting, DNS-over-HTTPS) |
@@ -148,10 +152,11 @@ Shared infrastructure used by every feature.
 | `core/nav/` | `AppRouter` — handles all navigation between screens |
 
 ### `favourites/`
+
 Everything related to the favorites library.
 
 | Sub-package | What it does |
-|---|---|
+| --- | --- |
 | `favourites/data/` | Room entities, DAOs, DB-to-model mapping |
 | `favourites/domain/` | `FavouritesRepository` — business logic |
 | `favourites/ui/container/` | The tabbed favorites screen with category tabs |
@@ -159,9 +164,11 @@ Everything related to the favorites library.
 | `favourites/ui/list/` | The list of manga inside a single category |
 
 ### `reader/`
+
 The core reading experience — page rendering, gestures, zoom, webtoon mode.
 
 ### `parsers` (external library)
+
 Manga sources (websites/APIs) are handled by an external library `kotatsu-parsers`. The `Manga` model class comes from this library.
 
 ---
@@ -169,7 +176,7 @@ Manga sources (websites/APIs) are handled by an external library `kotatsu-parser
 ## 6. Key files to know
 
 | File | What it does |
-|---|---|
+| --- | --- |
 | `app/build.gradle` | App version, build types, signing config, dependencies |
 | `gradle/libs.versions.toml` | All dependency versions (like `pubspec.yaml` lock file) |
 | `core/prefs/AppSettings.kt` | Every user preference, 849 lines |
@@ -192,6 +199,7 @@ Added a new `<item>` with `id="action_export"`.
 Added `R.id.action_export -> viewModel.exportCategory(categoryId)` in the `when` block.
 
 **3. ViewModel** — `FavouritesContainerViewModel.kt`
+
 - Added `val onExportReady = MutableEventFlow<String>()` — the event channel
 - Added `fun exportCategory(categoryId)` — fetches manga from DB via repository, builds plain text, fires the event
 
@@ -199,6 +207,7 @@ Added `R.id.action_export -> viewModel.exportCategory(categoryId)` in the `when`
 Observes `onExportReady` and opens Android's share sheet with the text.
 
 **Pattern to follow for any new feature:**
+
 1. Add strings in `res/values/strings.xml`
 2. Add UI (menu item, button, layout) in `res/`
 3. Add business logic in the ViewModel using `launchJob {}` or `launchLoadingJob {}`
@@ -213,6 +222,7 @@ Observes `onExportReady` and opens Android's share sheet with the text.
 After any code change, you do not need to do anything special before building. Gradle handles compilation automatically when you run a build command.
 
 **Quick checklist before building:**
+
 - [ ] Did you add a new string? Add it to `res/values/strings.xml`
 - [ ] Did you add a new database table or change an existing one? You need a Room migration (advanced — ask separately)
 - [ ] Did you change only UI/logic (no DB schema changes)? You are good to go
@@ -237,11 +247,13 @@ versionName = '9.4.3'       // human-readable, your choice
 ### Step 2 — Make sure your keystore is in place
 
 The keystore file must exist at the project root:
-```
+
+```text
 Kotatsu-Manga-Reader/release.jks
 ```
 
 The signing config in `app/build.gradle` should look like this:
+
 ```groovy
 signingConfigs {
     release {
@@ -258,18 +270,21 @@ signingConfigs {
 ### Step 3 — Build the APK
 
 Run this from the project root in your terminal:
+
 ```bash
 ./gradlew assembleRelease
 ```
 
 The signed APK will be at:
-```
+
+```text
 app/build/outputs/apk/release/app-release.apk
 ```
 
 ### Step 4 — Install on your connected device
 
 Connect your phone via USB with USB Debugging enabled, then run:
+
 ```bash
 ./gradlew installRelease
 ```
@@ -277,6 +292,7 @@ Connect your phone via USB with USB Debugging enabled, then run:
 This builds **and** installs in one step.
 
 Or install manually from the APK file:
+
 ```bash
 adb install app/build/outputs/apk/release/app-release.apk
 ```
@@ -314,6 +330,7 @@ keytool -genkey -v \
 This creates `release.jks` in whatever directory you run the command from. Run it from the project root.
 
 Then verify `app/build.gradle` has the signing config pointing to it:
+
 ```groovy
 signingConfigs {
     release {
@@ -332,11 +349,13 @@ signingConfigs {
 `keytool` comes with Java/JDK. Install it if missing:
 
 **macOS:**
+
 ```bash
 brew install openjdk
 ```
 
 **Check it works:**
+
 ```bash
 keytool -help
 ```
@@ -346,7 +365,8 @@ keytool -help
 - Back it up to iCloud, Google Drive, or a USB drive
 - Do **not** commit it to a public Git repository (it contains your private key)
 - Add it to `.gitignore`:
-  ```
+
+  ```text
   release.jks
   ```
 
@@ -377,13 +397,15 @@ Android will treat it as a seamless update. No data loss.
 ### Sharing the APK with others (internal use)
 
 Share the file at:
-```
+
+```text
 app/build/outputs/apk/release/app-release.apk
 ```
 
 Via WhatsApp, Telegram, Google Drive, email, etc.
 
 The recipient must:
+
 1. Enable **Install from unknown sources** in Android Settings
 2. Uninstall the original Kotatsu app if they have it (key mismatch)
 3. Open the shared APK file to install
@@ -392,7 +414,7 @@ The recipient must:
 
 ## Full release workflow summary
 
-```
+```text
 1. Make your code changes
 2. Bump versionCode and versionName in app/build.gradle
 3. Confirm release.jks exists in project root

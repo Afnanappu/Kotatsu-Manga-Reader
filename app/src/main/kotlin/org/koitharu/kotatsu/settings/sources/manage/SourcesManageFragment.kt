@@ -168,7 +168,16 @@ class SourcesManageFragment :
 			}
 
 			R.id.action_no_nsfw -> {
-				settings.isNsfwContentDisabled = !menuItem.isChecked
+				if (menuItem.isChecked) {
+					// Permanently locked by the developer: this cannot be turned off.
+					android.widget.Toast.makeText(
+						requireContext(),
+						R.string.nsfw_locked_by_developer,
+						android.widget.Toast.LENGTH_LONG,
+					).show()
+				} else {
+					settings.isNsfwContentDisabled = true
+				}
 				true
 			}
 

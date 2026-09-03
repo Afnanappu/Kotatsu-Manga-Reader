@@ -120,8 +120,11 @@ class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 		get() = prefs.getBoolean(KEY_TAGS_WARNINGS, true)
 
 	var isNsfwContentDisabled: Boolean
-		get() = prefs.getBoolean(KEY_DISABLE_NSFW, false)
-		set(value) = prefs.edit { putBoolean(KEY_DISABLE_NSFW, value) }
+		// Permanently forced on by the developer for safety: NSFW content must always stay disabled,
+		// regardless of any stored preference value or attempt to change it.
+		// To restore the original user-controlled behavior, uncomment the lines below and remove the forced ones.
+		get() = true // prefs.getBoolean(KEY_DISABLE_NSFW, false)
+		set(value) = prefs.edit { putBoolean(KEY_DISABLE_NSFW, true) } // putBoolean(KEY_DISABLE_NSFW, value)
 
 	var appLocales: LocaleListCompat
 		get() {

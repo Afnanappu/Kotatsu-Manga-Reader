@@ -3,6 +3,7 @@ package org.koitharu.kotatsu.settings.sources
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -36,6 +37,18 @@ class SourcesSettingsFragment : BasePreferenceFragment(R.string.remote_sources),
             entryValues = TriStateOption.entries.names()
             setDefaultValueCompat(TriStateOption.ASK.name)
         }
+		findPreference<TwoStatePreference>(AppSettings.KEY_DISABLE_NSFW)?.run {
+			// Permanently locked by the developer: keep this switch checked and forbid unchecking it.
+			isChecked = true
+			setOnPreferenceChangeListener { _, newValue ->
+				if (newValue == false) {
+					Toast.makeText(context, R.string.nsfw_locked_by_developer, Toast.LENGTH_LONG).show()
+					false
+				} else {
+					true
+				}
+			}
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
