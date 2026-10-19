@@ -65,6 +65,7 @@ class ReaderSettingsFragment :
 			summaryProvider = MultiSummaryProvider(R.string.disabled)
 		}
 		findPreference<SliderPreference>(AppSettings.KEY_WEBTOON_ZOOM_OUT)?.summaryProvider = PercentSummaryProvider()
+		findPreference<SliderPreference>(AppSettings.KEY_READER_MAX_ZOOM)?.summaryProvider = PercentSummaryProvider()
 		updateReaderModeDependency()
 	}
 

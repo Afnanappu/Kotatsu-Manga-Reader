@@ -29,6 +29,15 @@
 		android:summary="@string/reader_zoom_buttons_summary"
 		android:title="@string/reader_zoom_buttons" />
 
+	<org.koitharu.kotatsu.settings.utils.SliderPreference
+		android:key="reader_max_zoom"
+		android:stepSize="50"
+		android:title="@string/reader_max_zoom"
+		android:valueFrom="100"
+		android:valueTo="500"
+		app:defaultValue="200"
+		app:tickVisible="true" />
+
 	<SwitchPreferenceCompat
 		android:defaultValue="true"
 		android:key="webtoon_zoom"
@@ -87,11 +96,11 @@
 		android:title="@string/pages_animation"
 		app:useSimpleSummaryProvider="true" />
 
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:key="webtoon_pull_gesture"
-        android:summary="@string/enable_pull_gesture_summary"
-        android:title="@string/enable_pull_gesture_title" />
+	<SwitchPreferenceCompat
+		android:defaultValue="false"
+		android:key="webtoon_pull_gesture"
+		android:summary="@string/enable_pull_gesture_summary"
+		android:title="@string/enable_pull_gesture_title" />
 
 	<SwitchPreferenceCompat
 		android:defaultValue="false"

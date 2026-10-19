@@ -75,7 +75,7 @@ open class PageHolder(
 	}
 
 	override fun onReady() {
-		binding.ssiv.maxScale = 2f * maxOf(
+		binding.ssiv.maxScale = settings.maxZoom * maxOf(
 			binding.ssiv.width / binding.ssiv.sWidth.toFloat(),
 			binding.ssiv.height / binding.ssiv.sHeight.toFloat(),
 		)

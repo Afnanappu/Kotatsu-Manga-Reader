@@ -511,6 +511,10 @@ class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 	val defaultWebtoonZoomOut: Float
 		get() = prefs.getInt(KEY_WEBTOON_ZOOM_OUT, 0).coerceIn(0, 50) / 100f
 
+	@get:FloatRange(from = 1.0, to = 5.0)
+	val readerMaxZoom: Float
+		get() = prefs.getInt(KEY_READER_MAX_ZOOM, 200).coerceIn(100, 500) / 100f
+
 	@get:FloatRange(from = 0.0, to = 1.0)
 	var readerAutoscrollSpeed: Float
 		get() = prefs.getFloat(KEY_READER_AUTOSCROLL_SPEED, 0f)
@@ -770,6 +774,7 @@ class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 		const val KEY_WEBTOON_GAPS = "webtoon_gaps"
 		const val KEY_WEBTOON_ZOOM = "webtoon_zoom"
 		const val KEY_WEBTOON_ZOOM_OUT = "webtoon_zoom_out"
+		const val KEY_READER_MAX_ZOOM = "reader_max_zoom"
 		const val KEY_WEBTOON_PULL_GESTURE = "webtoon_pull_gesture"
 		const val KEY_PREFETCH_CONTENT = "prefetch_content"
 		const val KEY_APP_LOCALE = "app_locale"

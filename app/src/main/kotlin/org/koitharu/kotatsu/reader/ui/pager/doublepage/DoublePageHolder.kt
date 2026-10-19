@@ -44,7 +44,7 @@ class DoublePageHolder(
 
 	override fun onReady() {
 		with(binding.ssiv) {
-			maxScale = 2f * maxOf(
+			maxScale = settings.maxZoom * maxOf(
 				width / sWidth.toFloat(),
 				height / sHeight.toFloat(),
 			)
