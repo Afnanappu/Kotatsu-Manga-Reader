@@ -31,11 +31,20 @@
 
 	<org.koitharu.kotatsu.settings.utils.SliderPreference
 		android:key="reader_max_zoom"
-		android:stepSize="50"
+		android:stepSize="@integer/reader_max_zoom_step"
 		android:title="@string/reader_max_zoom"
-		android:valueFrom="100"
-		android:valueTo="500"
-		app:defaultValue="200"
+		android:valueFrom="@integer/reader_zoom_min"
+		android:valueTo="@integer/reader_zoom_max"
+		app:defaultValue="@integer/reader_zoom_default"
+		app:tickVisible="true" />
+
+	<org.koitharu.kotatsu.settings.utils.SliderPreference
+		android:key="reader_double_tap_zoom"
+		android:stepSize="@integer/reader_double_tap_zoom_step"
+		android:title="@string/reader_double_tap_zoom"
+		android:valueFrom="@integer/reader_zoom_min"
+		android:valueTo="@integer/reader_zoom_max"
+		app:defaultValue="@integer/reader_zoom_default"
 		app:tickVisible="true" />
 
 	<SwitchPreferenceCompat

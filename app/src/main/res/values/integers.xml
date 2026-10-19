@@ -11,4 +11,11 @@
 	<integer name="details_title_lines">4</integer>
 
 	<integer name="splash_screen_duration">450</integer>
+
+	<!-- Shared by the max zoom and double-tap zoom sliders; percent of fit size -->
+	<integer name="reader_zoom_min">100</integer>
+	<integer name="reader_zoom_max">500</integer>
+	<integer name="reader_max_zoom_step">50</integer>
+	<integer name="reader_double_tap_zoom_step">25</integer>
+	<integer name="reader_zoom_default">200</integer>
 </resources>

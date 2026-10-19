@@ -36,10 +36,12 @@ class ReversedPageHolder(
 
 	override fun onReady() {
 		with(binding.ssiv) {
-			maxScale = settings.maxZoom * maxOf(
+			val fitScale = maxOf(
 				width / sWidth.toFloat(),
 				height / sHeight.toFloat(),
 			)
+			maxScale = settings.maxZoom * fitScale
+			doubleTapZoomScale = settings.doubleTapZoom * fitScale
 			binding.ssiv.colorFilter = settings.colorFilter?.toColorFilter()
 			when (settings.zoomMode) {
 				ZoomMode.FIT_CENTER -> {

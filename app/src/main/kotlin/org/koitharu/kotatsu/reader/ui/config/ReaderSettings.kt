@@ -32,6 +32,7 @@ import org.koitharu.kotatsu.reader.domain.ReaderColorFilter
 data class ReaderSettings(
 	val zoomMode: ZoomMode,
 	val maxZoom: Float,
+	val doubleTapZoom: Float,
 	val background: ReaderBackground,
 	val colorFilter: ReaderColorFilter?,
 	val isReaderOptimizationEnabled: Boolean,
@@ -44,6 +45,7 @@ data class ReaderSettings(
 	private constructor(settings: AppSettings, colorFilterOverride: ReaderColorFilter?) : this(
 		zoomMode = settings.zoomMode,
 		maxZoom = settings.readerMaxZoom,
+		doubleTapZoom = settings.readerDoubleTapZoom,
 		background = settings.readerBackground,
 		colorFilter = colorFilterOverride?.takeUnless { it.isEmpty } ?: settings.readerColorFilter,
 		isReaderOptimizationEnabled = settings.isReaderOptimizationEnabled,
@@ -97,6 +99,7 @@ data class ReaderSettings(
 		private val settingsKeys = scatterSetOf(
 			AppSettings.KEY_ZOOM_MODE,
 			AppSettings.KEY_READER_MAX_ZOOM,
+			AppSettings.KEY_READER_DOUBLE_TAP_ZOOM,
 			AppSettings.KEY_PAGES_NUMBERS,
 			AppSettings.KEY_READER_BACKGROUND,
 			AppSettings.KEY_32BIT_COLOR,

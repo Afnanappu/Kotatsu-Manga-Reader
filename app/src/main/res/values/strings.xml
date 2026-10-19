@@ -486,6 +486,7 @@
     <string name="to_top">To top</string>
     <string name="moved_to_top">Moved to top</string>
     <string name="reader_max_zoom">Maximum zoom</string>
+    <string name="reader_double_tap_zoom">Double-tap zoom</string>
     <string name="zoom_out">Zoom out</string>
     <string name="zoom_in">Zoom in</string>
     <string name="reader_zoom_buttons">Show zoom buttons</string>

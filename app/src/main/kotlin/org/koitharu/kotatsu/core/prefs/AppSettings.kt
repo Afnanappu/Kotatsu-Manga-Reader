@@ -49,6 +49,9 @@ import javax.inject.Singleton
 class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 
 	private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+	private val zoomMin = context.resources.getInteger(R.integer.reader_zoom_min)
+	private val zoomMax = context.resources.getInteger(R.integer.reader_zoom_max)
+	private val zoomDefault = context.resources.getInteger(R.integer.reader_zoom_default)
 	private val connectivityManager = context.connectivityManager
 	private val mangaListBadgesDefault = ArraySet(context.resources.getStringArray(R.array.values_list_badges))
 
@@ -511,9 +514,11 @@ class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 	val defaultWebtoonZoomOut: Float
 		get() = prefs.getInt(KEY_WEBTOON_ZOOM_OUT, 0).coerceIn(0, 50) / 100f
 
-	@get:FloatRange(from = 1.0, to = 5.0)
 	val readerMaxZoom: Float
-		get() = prefs.getInt(KEY_READER_MAX_ZOOM, 200).coerceIn(100, 500) / 100f
+		get() = prefs.getInt(KEY_READER_MAX_ZOOM, zoomDefault).coerceIn(zoomMin, zoomMax) / 100f
+
+	val readerDoubleTapZoom: Float
+		get() = prefs.getInt(KEY_READER_DOUBLE_TAP_ZOOM, zoomDefault).coerceIn(zoomMin, zoomMax) / 100f
 
 	@get:FloatRange(from = 0.0, to = 1.0)
 	var readerAutoscrollSpeed: Float
@@ -775,6 +780,7 @@ class AppSettings @Inject constructor(@ApplicationContext context: Context) {
 		const val KEY_WEBTOON_ZOOM = "webtoon_zoom"
 		const val KEY_WEBTOON_ZOOM_OUT = "webtoon_zoom_out"
 		const val KEY_READER_MAX_ZOOM = "reader_max_zoom"
+		const val KEY_READER_DOUBLE_TAP_ZOOM = "reader_double_tap_zoom"
 		const val KEY_WEBTOON_PULL_GESTURE = "webtoon_pull_gesture"
 		const val KEY_PREFETCH_CONTENT = "prefetch_content"
 		const val KEY_APP_LOCALE = "app_locale"
