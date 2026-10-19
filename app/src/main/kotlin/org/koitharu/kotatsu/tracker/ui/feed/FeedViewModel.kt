@@ -101,9 +101,13 @@ class FeedViewModel @Inject constructor(
 		}
 	}
 
-	fun clearFeed(clearCounters: Boolean) {
+	fun clearFeed(readOnly: Boolean, clearCounters: Boolean) {
 		launchLoadingJob(Dispatchers.Default) {
-			repository.clearLogs()
+			if (readOnly) {
+				repository.clearReadLogs()
+			} else {
+				repository.clearLogs()
+			}
 			if (clearCounters) {
 				repository.clearCounters()
 			}

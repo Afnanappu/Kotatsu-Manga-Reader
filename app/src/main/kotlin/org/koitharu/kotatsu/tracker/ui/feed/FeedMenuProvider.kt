@@ -1,15 +1,15 @@
 package org.koitharu.kotatsu.tracker.ui.feed
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.MenuProvider
 import org.koitharu.kotatsu.R
-import org.koitharu.kotatsu.core.ui.dialog.RememberCheckListener
 import org.koitharu.kotatsu.core.ui.dialog.buildAlertDialog
-import org.koitharu.kotatsu.core.ui.dialog.setCheckbox
+import org.koitharu.kotatsu.databinding.DialogClearFeedBinding
 
 class FeedMenuProvider(
 	private val snackbarHost: View,
@@ -40,15 +40,18 @@ class FeedMenuProvider(
 		}
 
 		R.id.action_clear_feed -> {
-			val checkListener = RememberCheckListener(true)
+			val binding = DialogClearFeedBinding.inflate(LayoutInflater.from(context))
 			buildAlertDialog(context, isCentered = true) {
 				setIcon(R.drawable.ic_clear_all)
 				setTitle(R.string.clear_updates_feed)
 				setMessage(R.string.text_clear_updates_feed_prompt)
 				setNegativeButton(android.R.string.cancel, null)
-				setCheckbox(R.string.clear_new_chapters_counters, true, checkListener)
+				setView(binding.root)
 				setPositiveButton(R.string.clear) { _, _ ->
-					viewModel.clearFeed(checkListener.isChecked)
+					viewModel.clearFeed(
+						readOnly = binding.checkboxReadOnly.isChecked,
+						clearCounters = binding.checkboxCounters.isChecked,
+					)
 				}
 			}.show()
 			true

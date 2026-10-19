@@ -118,6 +118,8 @@ class TrackingRepository @Inject constructor(
 
 	suspend fun clearLogs() = db.getTrackLogsDao().clear()
 
+	suspend fun clearReadLogs() = db.getTrackLogsDao().clearRead()
+
 	suspend fun clearCounters() = db.getTracksDao().clearCounters()
 
 	suspend fun markAsRead(trackLogId: Long) = db.getTrackLogsDao().markAsRead(trackLogId)
